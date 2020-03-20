@@ -142,3 +142,6 @@ E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.MvcApplicationPartsAssemblyInfo.cache
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\CreateUser.cshtml.g.cs
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs

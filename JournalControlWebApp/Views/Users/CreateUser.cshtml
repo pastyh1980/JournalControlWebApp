@@ -1,0 +1,93 @@
+﻿@model JournalControlWebApp.Models.ViewModel.CreateUserViewModel
+
+@{
+    ViewData["Title"] = "CreateUser";
+}
+
+<h1>CreateUser</h1>
+
+<h4>CreateUserViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Family" class="control-label"></label>
+                <input asp-for="Family" class="form-control" />
+                <span asp-validation-for="Family" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Otch" class="control-label"></label>
+                <input asp-for="Otch" class="form-control" />
+                <span asp-validation-for="Otch" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post" class="control-label"></label>
+                <input asp-for="Post" class="form-control" />
+                <span asp-validation-for="Post" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subunit" class="control-label"></label>
+                <select asp-for="Subunit" class="form-control" asp-items="Model.Subunits" onchange="GetSectors()"></select>
+                <span asp-validation-for="Subunit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sector" class="control-label"></label>
+                <select asp-for="Sector" class="form-control" ></select>
+                <span asp-validation-for="Sector" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function GetSectors() {
+            var selectSubunit = document.getElementById("Subunit");
+            var selectSector = document.getElementById("Sector");
+            while (selectSector.firstChild) {
+                selectSector.removeChild(selectSector.firstChild);
+            }
+            var option = selectSubunit.options[selectSubunit.selectedIndex];
+            @foreach (var sec in Model.Sectors)
+            {
+                <text>
+                    var SubunitId = '@sec.SubunitId';
+                    var Id = '@sec.Id';
+                    var SectorName = @Html.Raw(Json.Serialize(sec.SectorName));
+                    if (SubunitId == option.value) {
+                        var newOpt = document.createElement("option");
+                        newOpt.value = Id;
+                        newOpt.text = SectorName;
+                        selectSector.appendChild(newOpt);
+                    }
+                </text>
+            }
+    }
+    GetSectors();
+</script>
+}

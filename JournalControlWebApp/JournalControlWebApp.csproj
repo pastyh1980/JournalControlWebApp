@@ -23,10 +23,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGenerators.Mvc" Version="3.1.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Users\" />
-  </ItemGroup>
-
 
 
 </Project>

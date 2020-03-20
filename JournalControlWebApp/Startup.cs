@@ -29,7 +29,7 @@ namespace JournalControlWebApp
             services.AddDbContext<journalContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("JournalDBConnection")));
 
-            services.AddIdentity<Worker, IdentityRole>()
+            services.AddIdentity<Worker, Role>()
                 .AddEntityFrameworkStores<journalContext>();
 
             services.AddControllersWithViews();

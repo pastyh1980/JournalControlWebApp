@@ -11,28 +11,40 @@ using JournalControlWebApp.Models.dbo;
 
 namespace JournalControlWebApp.Controllers
 {
-    [Authorize(Roles = "ADMIN")]
+    /*[Authorize(Roles = "ADMIN")]*/
     public class UsersController : Controller
     {
         private readonly UserManager<Worker> _userManager;
         private readonly SignInManager<Worker> _signInManager;
+        private readonly journalContext db;
 
-        public UsersController(UserManager<Worker> userManager, SignInManager<Worker> signInManager)
+        public UsersController(UserManager<Worker> userManager, SignInManager<Worker> signInManager, journalContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            db = context;
         }
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
+        public IActionResult Index()
+        {
+            List<Worker> workers = _userManager.Users.ToList();
+            foreach (var worker in workers)
+            {
+                db.Entry(worker).Reference(w => w.Sector).Load();
+                db.Entry(worker.Sector).Reference(s => s.Subunit).Load();
+            }
+            return View(workers);
+        }
 
-        public IActionResult CreateUser() => View();
+        [HttpGet]
+        public IActionResult CreateUser() => View(new CreateUserViewModel(db));
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Worker worker = new Worker { UserName = model.Login, Family = model.Family, Name = model.Name, Otch = model.Otch, Post = model.Post };
+                Worker worker = new Worker { UserName = model.Login, Family = model.Family, Name = model.Name, Otch = model.Otch, Post = model.Post, SectorId = model.Sector, IsFirstLogin = true };
                 var result =
                     await _userManager.CreateAsync(worker, model.Password);
 
@@ -42,6 +54,7 @@ namespace JournalControlWebApp.Controllers
                     foreach (var er in result.Errors)
                         ModelState.AddModelError(string.Empty, er.Description);
             }
+            model.FillLists(db);
             return View(model);
         }
     }

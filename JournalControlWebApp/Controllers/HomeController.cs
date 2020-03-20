@@ -19,14 +19,18 @@ namespace JournalControlWebApp.Controllers
 
         private readonly SignInManager<Worker> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<Worker> signInManager)
+        private readonly journalContext db;
+
+        public HomeController(ILogger<HomeController> logger, SignInManager<Worker> signInManager, journalContext context)
         {
             _logger = logger;
             _signInManager = signInManager;
+            db = context;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Message = db.Subunits.Count();
             return View();
         }
 

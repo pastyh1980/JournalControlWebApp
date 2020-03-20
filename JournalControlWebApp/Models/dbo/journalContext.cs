@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace JournalControlWebApp.Models.dbo
 {
-    public partial class journalContext : IdentityDbContext<Worker>
+    public partial class journalContext : IdentityDbContext<Worker, Role, int>
     {
         public journalContext()
         {
@@ -35,6 +35,7 @@ namespace JournalControlWebApp.Models.dbo
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Check>(entity =>
             {
                 entity.ToTable("check");
@@ -203,6 +204,7 @@ namespace JournalControlWebApp.Models.dbo
 
             modelBuilder.Entity<Sector>(entity =>
             {
+                entity.ToTable("sectors");
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.IsMain).HasColumnName("is_main");
@@ -251,6 +253,7 @@ namespace JournalControlWebApp.Models.dbo
 
             modelBuilder.Entity<Subunit>(entity =>
             {
+                entity.ToTable("Subunits");
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Name)
@@ -265,21 +268,10 @@ namespace JournalControlWebApp.Models.dbo
                 entity.ToTable("workers");
 
                 entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Access)
-                    .HasColumnName("access")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
+                
                 entity.Property(e => e.Family)
                     .IsRequired()
                     .HasColumnName("family")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasColumnName("login")
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
@@ -295,16 +287,15 @@ namespace JournalControlWebApp.Models.dbo
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Passwd)
-                    .HasColumnName("passwd")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Post)
                     .IsRequired()
                     .HasColumnName("post")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.IsFirstLogin)
+                    .IsRequired()
+                    .HasColumnName("is_first_login");
 
                 entity.Property(e => e.SectorId).HasColumnName("sector_id");
 

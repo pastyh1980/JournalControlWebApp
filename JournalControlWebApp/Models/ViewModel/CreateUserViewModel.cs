@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+
+using JournalControlWebApp.Models.dbo;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JournalControlWebApp.Models.ViewModel
 {
@@ -31,5 +35,30 @@ namespace JournalControlWebApp.Models.ViewModel
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
+        [Required]
+        [Display(Name = "Подразделение")]
+        public int Subunit { get; set; }
+
+        [Required]
+        [Display(Name = "Участок")]
+        public int Sector { get; set; }
+
+        public SelectList Subunits;
+
+        public List<Sector> Sectors;
+
+        public CreateUserViewModel() { }
+
+        public CreateUserViewModel(journalContext context)
+        {
+            FillLists(context);
+        }
+
+        public void FillLists(journalContext context)
+        {
+            Subunits = new SelectList(context.Subunits.ToList(), "Id", "Name");
+            Sectors = context.Sectors.ToList();
+        }
     }
 }

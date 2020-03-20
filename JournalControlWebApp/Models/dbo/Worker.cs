@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace JournalControlWebApp.Models.dbo
 {
-    public partial class Worker : IdentityUser
+    public partial class Worker : IdentityUser<int>
     {
         public Worker()
         {
@@ -17,13 +17,11 @@ namespace JournalControlWebApp.Models.dbo
         }
 
         public int SectorId { get; set; }
-        public string Login { get; set; }
         public string Family { get; set; }
         public string Name { get; set; }
         public string Otch { get; set; }
         public string Post { get; set; }
-        public string Access { get; set; }
-        public string Passwd { get; set; }
+        public bool IsFirstLogin { get; set; }
 
         public virtual Sector Sector { get; set; }
         public virtual ICollection<Check> CheckDeleteWorkerNavigation { get; set; }
