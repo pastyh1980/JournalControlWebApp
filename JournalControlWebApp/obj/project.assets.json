@@ -8384,23 +8384,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alexey\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "D:\\Users\\pasty\\.nuget\\packages\\": {},
+    "D:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
+      "projectUniqueName": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
       "projectName": "JournalControlWebApp",
-      "projectPath": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
-      "packagesPath": "C:\\Users\\alexey\\.nuget\\packages\\",
-      "outputPath": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\obj\\",
+      "projectPath": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
+      "packagesPath": "D:\\Users\\pasty\\.nuget\\packages\\",
+      "outputPath": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
+        "D:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\alexey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "D:\\Users\\pasty\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -8488,7 +8490,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -8,5 +8,10 @@ namespace JournalControlWebApp.Models.dbo
 {
     public class Role : IdentityRole<int>
     {
+        public Role(string roleName) : base(roleName)
+        { }
+
+        public Role() : base()
+        { }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 using JournalControlWebApp.Models.dbo;
@@ -10,8 +11,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JournalControlWebApp.Models.ViewModel
 {
-    public class CreateUserViewModel
+    public class EditUserViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [Display(Name = "Логин")]
         public string Login { get; set; }
@@ -32,11 +35,6 @@ namespace JournalControlWebApp.Models.ViewModel
         public string Post { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
-        public string Password { get; set; }
-
-        [Required]
         [Display(Name = "Подразделение")]
         public int Subunit { get; set; }
 
@@ -44,16 +42,21 @@ namespace JournalControlWebApp.Models.ViewModel
         [Display(Name = "Участок")]
         public int Sector { get; set; }
 
+        [NotMapped]
         public SelectList Subunits { get; set; }
 
+        [NotMapped]
         public List<Sector> Sectors { get; set; }
 
         [Display(Name = "Роли")]
         public List<Role> AllRoles { get; set; }
 
-        public CreateUserViewModel() { }
+        [NotMapped]
+        public IList<string> UserRoles { get; set; }
 
-        public CreateUserViewModel(journalContext context)
+        public EditUserViewModel() { }
+
+        public EditUserViewModel(journalContext context)
         {
             FillLists(context);
         }
