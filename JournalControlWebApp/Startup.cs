@@ -33,6 +33,13 @@ namespace JournalControlWebApp
                 .AddEntityFrameworkStores<journalContext>();
 
             services.AddControllersWithViews();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Home/Login";
+                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.LogoutPath = "/Home/Logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +59,8 @@ namespace JournalControlWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

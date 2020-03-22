@@ -37,6 +37,12 @@ namespace JournalControlWebApp.Models.ViewModel
         public string Password { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Подтверждение пароля")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        public string ValidatePassword { get; set; }
+
+        [Required]
         [Display(Name = "Подразделение")]
         public int Subunit { get; set; }
 

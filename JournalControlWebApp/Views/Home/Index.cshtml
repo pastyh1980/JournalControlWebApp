@@ -8,12 +8,12 @@
         {
             <p>@User.Identity.Name</p>
 
-            <form method="post" asp-controller="Account" asp-action="Logout">
+            <form method="post" asp-controller="Home" asp-action="Logout">
                 <input type="submit" value="Выход" />
             </form>
         }
         else
         {
-            <a asp-controller="Account" asp-action="Login">Вход</a>
+            <a asp-controller="Home" asp-action="Login">Вход</a>
         }
     </div>

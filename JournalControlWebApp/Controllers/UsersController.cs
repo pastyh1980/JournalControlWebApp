@@ -11,7 +11,7 @@ using JournalControlWebApp.Models.dbo;
 
 namespace JournalControlWebApp.Controllers
 {
-    /*[Authorize(Roles = "ADMIN")]*/
+    [Authorize(Roles = "ADMIN")]
     public class UsersController : Controller
     {
         private readonly UserManager<Worker> _userManager;
@@ -65,6 +65,7 @@ namespace JournalControlWebApp.Controllers
                         ModelState.AddModelError(string.Empty, er.Description);
             }
             model.FillLists(db);
+            model.AllRoles = _roleManager.Roles.ToList();
             return View(model);
         }
 
@@ -136,6 +137,69 @@ namespace JournalControlWebApp.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            Worker worker = await _userManager.FindByIdAsync(id);
+            if (worker != null)
+            {
+                ChangePasswordViewModel model = new ChangePasswordViewModel { Id = worker.Id.ToString(), Login = worker.UserName };
+                return View(model);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Worker worker = await _userManager.FindByIdAsync(model.Id);
+                if (worker != null)
+                {
+                    var _passwordValidator = HttpContext.RequestServices.GetService(typeof(IPasswordValidator<Worker>)) as IPasswordValidator<Worker>;
+                    var _passwordHasher = HttpContext.RequestServices.GetService(typeof(IPasswordHasher<Worker>)) as IPasswordHasher<Worker>;
+
+                    IdentityResult result = await _passwordValidator.ValidateAsync(_userManager, worker, model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        worker.PasswordHash = _passwordHasher.HashPassword(worker, model.NewPassword);
+                        worker.IsFirstLogin = false;
+                        await _userManager.UpdateAsync(worker);
+                        if (!string.IsNullOrEmpty(model.ReturnURL) && Url.IsLocalUrl(model.ReturnURL))
+                            return Redirect(model.ReturnURL);
+                        else
+                            return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Пользователь не найден");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            Worker worker = await _userManager.FindByIdAsync(id);
+            
+            if (worker != null)
+            {
+                await _userManager.DeleteAsync(worker);
+            }
+            return NotFound();
         }
     }
 }

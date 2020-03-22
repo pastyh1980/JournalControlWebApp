@@ -295,3 +295,4 @@ D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalCon
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.pdb
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.genruntimeconfig.cache
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\EditUser.cshtml.g.cs
+D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\SetPassword.cshtml.g.cs
