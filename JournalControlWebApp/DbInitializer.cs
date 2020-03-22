@@ -25,6 +25,13 @@ namespace JournalControlWebApp
                 await roleManager.CreateAsync(new Role("REG"));
 
             }
+
+            if (userManager.Users.Count() < 20)
+            {
+                for (int i = userManager.Users.Count(); i <= 72; ++i)
+                    await userManager.CreateAsync(new Worker { UserName = "user" + i, Family = "Фамилия", Name = "Имя", Otch = "Отчество", Post = "Должность", SectorId = 1, IsFirstLogin
+                     = true});
+            }
         }
     }
 }

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 using JournalControlWebApp.Models.ViewModel;
 using JournalControlWebApp.Models.dbo;
+using JournalControlWebApp.Models.FSPViewModel;
 
 namespace JournalControlWebApp.Controllers
 {
@@ -27,15 +29,99 @@ namespace JournalControlWebApp.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string query, int page = 1, SortStateWorker sortOrder = SortStateWorker.LoginAsc)
         {
-            List<Worker> workers = _userManager.Users.ToList();
-            foreach (var worker in workers)
+            int pageSize = 10;
+            //IQueryable<Worker> workers = _userManager.Users;
+            IQueryable<Worker>  workers = db.Workers.Include(x => x.Sector).Include(x => x.Sector.Subunit);
+            /*foreach (var worker in workers)
             {
                 db.Entry(worker).Reference(w => w.Sector).Load();
                 db.Entry(worker.Sector).Reference(s => s.Subunit).Load();
+            }*/
+
+            if (!String.IsNullOrEmpty(query))
+            {
+                workers = workers.Where(p => p.UserName.ToUpper().Contains(query.ToUpper())
+                                || p.Family.ToUpper().Contains(query.ToUpper())
+                                || p.Name.ToUpper().Contains(query.ToUpper())
+                                || p.Otch.ToUpper().Contains(query.ToUpper())
+                                || p.Post.ToUpper().Contains(query.ToUpper())
+                                || p.Sector.Subunit.Name.ToUpper().Contains(query.ToUpper())
+                                || p.Sector.SectorName.ToUpper().Contains(query.ToUpper())
+                );
             }
-            return View(workers);
+
+            switch(sortOrder)
+            {
+                case SortStateWorker.LoginDesc:
+                    workers = workers.OrderByDescending(p => p.UserName);
+                    break;
+
+                case SortStateWorker.FamilyAsc:
+                    workers = workers.OrderBy(p => p.Family);
+                    break;
+
+                case SortStateWorker.FamilyDesc:
+                    workers = workers.OrderByDescending(p => p.Family);
+                    break;
+
+                case SortStateWorker.NameAsc:
+                    workers = workers.OrderBy(p => p.Name);
+                    break;
+
+                case SortStateWorker.NameDesc:
+                    workers = workers.OrderByDescending(p => p.Name);
+                    break;
+
+                case SortStateWorker.OtchAsc:
+                    workers = workers.OrderBy(p => p.Otch);
+                    break;
+
+                case SortStateWorker.OtchDesc:
+                    workers = workers.OrderByDescending(p => p.Otch);
+                    break;
+
+                case SortStateWorker.PostAsc:
+                    workers = workers.OrderBy(p => p.Post);
+                    break;
+
+                case SortStateWorker.PostDesc:
+                    workers = workers.OrderByDescending(p => p.Post);
+                    break;
+
+                case SortStateWorker.SubunitAsc:
+                    workers = workers.OrderBy(p => p.Sector.Subunit.Name);
+                    break;
+
+                case SortStateWorker.SubunitDesc:
+                    workers = workers.OrderByDescending(p => p.Sector.Subunit.Name);
+                    break;
+
+                case SortStateWorker.SectorAsc:
+                    workers = workers.OrderBy(p => p.UserName);
+                    break;
+
+                case SortStateWorker.SectorDesc:
+                    workers = workers.OrderByDescending(p => p.UserName);
+                    break;
+
+                default:
+                    workers = workers.OrderBy(p => p.UserName);
+                    break;
+            }
+
+            var count = workers.Count();
+            var items = workers.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            WorkerListViewModel model = new WorkerListViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                SortViewModel = new SortWorkerViewModel(sortOrder),
+                FilterViewModel = new FilterWorkerViewModel(query),
+                Workers = items
+            };
+            return View(model);
         }
 
         [HttpGet]
@@ -167,7 +253,7 @@ namespace JournalControlWebApp.Controllers
                     if (result.Succeeded)
                     {
                         worker.PasswordHash = _passwordHasher.HashPassword(worker, model.NewPassword);
-                        worker.IsFirstLogin = false;
+                        worker.IsFirstLogin = true;
                         await _userManager.UpdateAsync(worker);
                         if (!string.IsNullOrEmpty(model.ReturnURL) && Url.IsLocalUrl(model.ReturnURL))
                             return Redirect(model.ReturnURL);
