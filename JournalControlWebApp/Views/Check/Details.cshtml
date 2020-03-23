@@ -1,0 +1,171 @@
+﻿@model JournalControlWebApp.Models.dbo.Check
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Check</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FailCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FailCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RegDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RegDate)
+        </dd>
+        <dt class="col-sm-2">
+            Проверяющее подразделение
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RegWorkerNavigation.Sector.Subunit.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RegWorkerNavigation)
+        </dt>
+        @{ string regFio = Model.RegWorkerNavigation.Family + " " + Model.RegWorkerNavigation.Name[0] + "." + Model.RegWorkerNavigation.Otch[0] + ".";}
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => regFio)
+        </dd>
+        @{ string dateStr = Model.CheckDate.ToShortDateString();}
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => dateStr)
+        </dd>
+        <dt class="col-sm-2">
+            Проверяемое подразделение
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sector.Subunit.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Проверяемый участок
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sector.SectorName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TdKd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TdKd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ControlIndicator)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ControlIndicator)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FailDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FailDescription)
+        </dd>
+    </dl>
+</div>
+
+@if (Model.Events.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ФИО разработчика</th>
+                <th>Причина несоответствия</th>
+                <th>Описание мероприятия</th>
+                <th>Ответственный</th>
+                <th>Срок исполнения</th>
+                <th>Отчет</th>
+                <th>Подтверждающая информация</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ev in Model.Events)
+            {
+                string FIO = ev.DeveloperNavigation.Family + " " + ev.DeveloperNavigation.Name[0] + "." + ev.DeveloperNavigation.Otch[0] + ".";
+                string dueStr = ev.DueDate.ToShortDateString();
+                <tr>
+                    <td>
+                        @FIO
+                    </td>
+                    <td>
+                        @ev.FailReason
+                    </td>
+                    <td>
+                        @ev.Description
+                    </td>
+                    <td>
+                        @ev.ResponsWorker
+                    </td>
+                    <td>
+                        @dueStr
+                    </td>
+                    <td>
+                        @ev.Report
+                    </td>
+                    <td>
+                        @ev.ProofInf
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.Shows.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Дата ознакомления</th>
+                <th>ФИО сотрудника</th>
+                <th>Должность</th>
+                <th>Подразделение</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sh in Model.Shows)
+            {
+                string FIO = sh.Worker.Family + " " + sh.Worker.Name[0] + "." + sh.Worker.Otch[0] + ".";
+                string showDateStr = sh.Date.ToShortDateString();
+                <tr>
+                    <td>
+                        @showDateStr
+                    </td>
+                    <td>
+                        @FIO
+                    </td>
+                    <td>
+                        @sh.Worker.Post
+                    </td>
+                    <td>
+                        @sh.Worker.Sector.Subunit.Name
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (User.IsInRole("SUBSHOW") && (ViewBag.Worker.SectorId == Model.SectorId
+  || ViewBag.Worker.Sector.SubunitId == Model.Sector.SubunitId && ViewBag.Worker.Sector.IsMain)
+  && !Model.Shows.Any(s => s.WorkerId == ViewBag.Worker.Id))
+{
+    <form method="post" asp-action="Subshow" asp-route-checkId="@Model.Id">
+        <input type="submit" value="Ознакомиться" class="btn btn-primary" />
+    </form>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

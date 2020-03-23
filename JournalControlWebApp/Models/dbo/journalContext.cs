@@ -41,8 +41,7 @@ namespace JournalControlWebApp.Models.dbo
                 entity.ToTable("check");
 
                 entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("id");
 
                 entity.Property(e => e.CheckDate)
                     .HasColumnName("check_date")

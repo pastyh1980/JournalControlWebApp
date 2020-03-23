@@ -32,13 +32,7 @@ namespace JournalControlWebApp.Controllers
         public IActionResult Index(string query, int page = 1, SortStateWorker sortOrder = SortStateWorker.LoginAsc)
         {
             int pageSize = 10;
-            //IQueryable<Worker> workers = _userManager.Users;
             IQueryable<Worker>  workers = db.Workers.Include(x => x.Sector).Include(x => x.Sector.Subunit);
-            /*foreach (var worker in workers)
-            {
-                db.Entry(worker).Reference(w => w.Sector).Load();
-                db.Entry(worker.Sector).Reference(s => s.Subunit).Load();
-            }*/
 
             if (!String.IsNullOrEmpty(query))
             {

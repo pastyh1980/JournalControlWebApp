@@ -1,0 +1,88 @@
+﻿@model JournalControlWebApp.Models.ViewModel.CreateCheckViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>CreateCheckViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CheckDate" class="control-label"></label>
+                <input asp-for="CheckDate" class="form-control" />
+                <span asp-validation-for="CheckDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlIndicator" class="control-label"></label>
+                <input asp-for="ControlIndicator" class="form-control" />
+                <span asp-validation-for="ControlIndicator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FailDesc" class="control-label"></label>
+                <input asp-for="FailDesc" class="form-control" />
+                <span asp-validation-for="FailDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TDKD" class="control-label"></label>
+                <input asp-for="TDKD" class="form-control" />
+                <span asp-validation-for="TDKD" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubunitId" class="control-label"></label>
+                <select asp-for="SubunitId" class="form-control" asp-items="Model.Subunits" onchange="GetSectors()"></select>
+                <span asp-validation-for="SubunitId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectorId" class="control-label"></label>
+                <select asp-for="SectorId" class="form-control"></select>
+                <span asp-validation-for="SectorId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isFail" /> @Html.DisplayNameFor(model => model.isFail)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function GetSectors() {
+            var selectSubunit = document.getElementById("SubunitId");
+            var selectSector = document.getElementById("SectorId");
+            while (selectSector.firstChild) {
+                selectSector.removeChild(selectSector.firstChild);
+            }
+            var option = selectSubunit.options[selectSubunit.selectedIndex];
+            @foreach (var sec in Model.Sectors)
+            {
+                <text>
+                    var SubunitId = '@sec.SubunitId';
+                    var Id = '@sec.Id';
+                    var SectorName = @Html.Raw(Json.Serialize(sec.SectorName));
+                    if (SubunitId == option.value) {
+                        var newOpt = document.createElement("option");
+                        newOpt.value = Id;
+                        newOpt.text = SectorName;
+                        selectSector.appendChild(newOpt);
+                    }
+                </text>
+            }
+    }
+    GetSectors();
+</script>
+}
