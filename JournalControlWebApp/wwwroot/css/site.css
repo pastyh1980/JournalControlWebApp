@@ -90,6 +90,10 @@ tr[data-href].hover {
     background-color: #b4b4b4;
 }
 
+tr[data-href].selected_row {
+    background-color: #1861ac;
+}
+
 tr[data-href].red_row.hover {
     background-color: #934242;
 }

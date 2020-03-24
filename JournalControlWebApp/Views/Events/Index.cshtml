@@ -1,4 +1,4 @@
-﻿@model JournalControlWebApp.Models.ViewModel.CheckListViewModel
+﻿@model JournalControlWebApp.Models.ViewModel.EventListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -15,11 +15,11 @@
         <input type="submit" value="Поиск" class="btn btn-outline-primary" />
     </div>
 </form>
-@if (User.IsInRole("REG"))
+@if (User.IsInRole("DEVEL"))
 {
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 }
 <table class="table">
     <thead>
@@ -40,30 +40,9 @@
             </th>
             <th>
                 <a asp-action="Index"
-                   asp-route-sortOrder="@Model.SortViewModel.CheckSubunitSort"
+                   asp-route-sortOrder="@Model.SortViewModel.CheckSectorSort"
                    asp-route-query="@Model.FilterViewModel.QueryString">
                     Проверяемый участок
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@Model.SortViewModel.CheckDateSort"
-                   asp-route-query="@Model.FilterViewModel.QueryString">
-                    Дата проверки
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@Model.SortViewModel.RegWorkerSort"
-                   asp-route-query="@Model.FilterViewModel.QueryString">
-                    ФИО проверяющего
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@Model.SortViewModel.ControlIndicatorSort"
-                   asp-route-query="@Model.FilterViewModel.QueryString">
-                    Объект контроля
                 </a>
             </th>
             <th>
@@ -75,42 +54,83 @@
             </th>
             <th>
                 <a asp-action="Index"
-                   asp-route-sortOrder="@Model.SortViewModel.RegSubunitSort"
+                   asp-route-sortOrder="@Model.SortViewModel.EventDescriptionSort"
                    asp-route-query="@Model.FilterViewModel.QueryString">
-                    Проверяющее подразделение
+                    Описание мероприятия
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@Model.SortViewModel.ResponseWorkerSort"
+                   asp-route-query="@Model.FilterViewModel.QueryString">
+                    ФИО ответственного
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@Model.SortViewModel.DueDateSort"
+                   asp-route-query="@Model.FilterViewModel.QueryString">
+                    Срок исполнения
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@Model.SortViewModel.DeveloperSubunitSort"
+                   asp-route-query="@Model.FilterViewModel.QueryString">
+                    Подразделение разработчика
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@Model.SortViewModel.DeveloperSort"
+                   asp-route-query="@Model.FilterViewModel.QueryString">
+                    ФИО разработчика
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@Model.SortViewModel.ReportSort"
+                   asp-route-query="@Model.FilterViewModel.QueryString">
+                    Отчет
                 </a>
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Checks)
+        @foreach (var item in Model.Events)
         {
-            string FIO = item.RegWorkerNavigation.Family + " " + item.RegWorkerNavigation.Name[0] + "." + item.RegWorkerNavigation.Otch[0] + ".";
-            string dateStr = item.CheckDate.ToShortDateString();
-            <tr data-href="/Check/Details?id=@item.Id" class="@(item.Events.Count == 0 && item.IsFail? "red_row" : "")">
+            string FIO = item.DeveloperNavigation.Family + " " + item.DeveloperNavigation.Name + "." + item.DeveloperNavigation.Otch + ".";
+            string date = item.DueDate.ToShortDateString();
+            <tr data-href="/Events/Details?id=@item.Id">
                 <td>
-                    @Html.DisplayFor(modelItem => item.FailCount)
+                    @Html.DisplayFor(modelItem => item.Check.FailCount)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Sector.Subunit.Name)
+                    @Html.DisplayFor(modelItem => item.Check.Sector.Subunit.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Sector.SectorName)
+                    @Html.DisplayFor(modelItem => item.Check.Sector.SectorName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => dateStr)
+                    @Html.DisplayFor(modelItem => item.Check.FailDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResponsWorker)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeveloperNavigation.Sector.Subunit.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => FIO)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ControlIndicator)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FailDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegWorkerNavigation.Sector.Subunit.Name)
+                    @Html.DisplayFor(modelItem => item.Report)
                 </td>
             </tr>
         }

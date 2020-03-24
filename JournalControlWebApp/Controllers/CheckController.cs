@@ -36,7 +36,7 @@ namespace JournalControlWebApp.Controllers
                 .Include(c => c.RegWorkerNavigation.Sector.Subunit)
                 .Include(c => c.Sector)
                 .Include(c => c.Sector.Subunit)
-                .Include(c => c.Shows);
+                .Include(c => c.Events);
             checks = checks.Where(c => c.IsActive && c.IsCorrect);
             if (User.IsInRole("REG") && !User.IsInRole("CHECK_DETAIL") && !User.IsInRole("CONTROL")) 
             {
@@ -50,8 +50,7 @@ namespace JournalControlWebApp.Controllers
                 if (worker != null)
                 {
                     db.Entry(worker).Reference(w => w.Sector).Load();
-                    db.Entry(worker.Sector).Reference(w => w.Subunit).Load();
-                    checks = checks.Where(c => c.Sector.Subunit == worker.Sector.Subunit);
+                    checks = checks.Where(c => c.Sector.SubunitId == worker.Sector.SubunitId);
                 }
             }
 
@@ -67,8 +66,6 @@ namespace JournalControlWebApp.Controllers
             if (!String.IsNullOrEmpty(query))
             {
                 checks = checks.Where(c => c.FailCount.ToUpper().Contains(query.ToUpper())
-                                        || c.Sector.Subunit.Name.ToUpper().Contains(query.ToUpper())
-                                        || c.Sector.SectorName.ToUpper().Contains(query.ToUpper())
                                         || c.RegWorkerNavigation.Family.ToUpper().Contains(query.ToUpper())
                                         || c.ControlIndicator.ToUpper().Contains(query.ToUpper())
                                         || c.FailDescription.ToUpper().Contains(query.ToUpper())
@@ -161,8 +158,10 @@ namespace JournalControlWebApp.Controllers
         [Authorize(Roles = "REG")]
         public IActionResult Create()
         {
-            CreateCheckViewModel model = new CreateCheckViewModel(db);
-            model.CheckDate = DateTime.Now.Date;
+            CreateCheckViewModel model = new CreateCheckViewModel(db)
+            {
+                CheckDate = DateTime.Now.Date
+            };
             return View(model);
         }
 

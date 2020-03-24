@@ -21,10 +21,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User.IsInRole("REG"))
+                        @if (User.IsInRole("REG") || User.IsInRole("CHECK_DETAIL") || User.IsInRole("CONTROL"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Check" asp-action="Index">Check</a>
+                            </li>
+                        }@if (User.IsInRole("DEVEL") || User.IsInRole("EVENT_DETAIL") || User.IsInRole("CONTROL"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                             </li>
                         }
                         @if (User.IsInRole("ADMIN"))

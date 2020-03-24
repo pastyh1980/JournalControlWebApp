@@ -1,0 +1,263 @@
+﻿@model JournalControlWebApp.Models.ViewModel.CreateEventViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>CreateEventViewModel</h4>
+<hr />
+<div class="row">
+    <form method="get" asp-action="Index" name="CheckFilter">
+        <div class="form-inline">
+            <input name="query" value="@Model.FilterViewModel.QueryString" class="form-control" />
+            <label class="control-label">Проверяемое подразделение</label>
+            <select id="Subunit" name="subunit" class="form-control" asp-items="Model.FilterViewModel.Subunits" onchange="GetSectors()"></select>
+            <label class="control-label">Проверяемый участок</label>
+            <select id="Sector" name="sector" class="form-control"></select>
+            <input type="submit" value="Поиск" class="btn btn-outline-primary" />
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.FailCountSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Номер несоответствия
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.CheckSubunitSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Проверяемое подразделение
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.CheckSubunitSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Проверяемый участок
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.CheckDateSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Дата проверки
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.RegWorkerSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        ФИО проверяющего
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.ControlIndicatorSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Объект контроля
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.FailDescriptionSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Результат контроля
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@Model.SortViewModel.RegSubunitSort"
+                       asp-route-query="@Model.FilterViewModel.QueryString">
+                        Проверяющее подразделение
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Checks)
+            {
+                string FIO = item.RegWorkerNavigation.Family + " " + item.RegWorkerNavigation.Name[0] + "." + item.RegWorkerNavigation.Otch[0] + ".";
+                string dateStr = item.CheckDate.ToShortDateString();
+                <tr data-href="@item.Id">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FailCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sector.Subunit.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sector.SectorName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => dateStr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => FIO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ControlIndicator)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FailDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegWorkerNavigation.Sector.Subunit.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+           asp-route-query="@Model.FilterViewModel.QueryString"
+           asp-route-sortOrder="@Model.SortViewModel.Current"
+           asp-route-subunit="@Model.FilterViewModel.SelectedSubunit"
+           asp-route-sector="@Model.FilterViewModel.SelectedSector"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+    }
+    @for (var i = 1; i <= Model.PageViewModel.TotalPages; ++i)
+    {
+        @if (i == Model.PageViewModel.PageNumber)
+        {
+            <a asp-action="Index"
+               asp-route-page="@i"
+               asp-route-query="@Model.FilterViewModel.QueryString"
+               asp-route-sortOrder="@Model.SortViewModel.Current"
+               asp-route-subunit="@Model.FilterViewModel.SelectedSubunit"
+               asp-route-sector="@Model.FilterViewModel.SelectedSector"
+               class="btn btn-outline-info">
+                @i
+            </a>
+        }
+        else
+        {
+            <a asp-action="Index"
+               asp-route-page="@i"
+               asp-route-query="@Model.FilterViewModel.QueryString"
+               asp-route-sortOrder="@Model.SortViewModel.Current"
+               asp-route-subunit="@Model.FilterViewModel.SelectedSubunit"
+               asp-route-sector="@Model.FilterViewModel.SelectedSector"
+               class="btn btn-outline-dark">
+                @i
+            </a>
+        }
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+           asp-route-query="@Model.FilterViewModel.QueryString"
+           asp-route-sortOrder="@Model.SortViewModel.Current"
+           asp-route-subunit="@Model.FilterViewModel.SelectedSubunit"
+           asp-route-sector="@Model.FilterViewModel.SelectedSector"
+           class="btn btn-outline-dark">
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    }
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" name="EventCreate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="SelectedCheckId" type="hidden" />
+            <div class="form-group">
+                <label asp-for="FailReason" class="control-label"></label>
+                <input asp-for="FailReason" class="form-control" />
+                <span asp-validation-for="FailReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResponseWorker" class="control-label"></label>
+                <input asp-for="ResponseWorker" class="form-control" />
+                <span asp-validation-for="ResponseWorker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DueDate" class="control-label"></label>
+                <input asp-for="DueDate" class="form-control" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function GetSectors() {
+            var selectSubunit = document.getElementById("Subunit");
+            var selectSector = document.getElementById("Sector");
+            while (selectSector.firstChild) {
+                selectSector.removeChild(selectSector.firstChild);
+            }
+            var option = selectSubunit.options[selectSubunit.selectedIndex];
+            @foreach (var sec in Model.FilterViewModel.Sectors)
+            {
+                <text>
+                    var SubunitId = '@sec.SubunitId';
+                    var Id = '@sec.Id';
+                    var SectorName = @Html.Raw(Json.Serialize(sec.SectorName));
+                    if (SubunitId == option.value || Id == 0) {
+                        var newOpt = document.createElement("option");
+                        newOpt.value = Id;
+                        newOpt.text = SectorName;
+                        selectSector.appendChild(newOpt);
+                    }
+                </text>
+            }
+    }
+    GetSectors();
+    var selectSector = document.getElementById("Sector");
+    for (var i = 0; i < selectSector.options.length; ++i) {
+        if (selectSector.options[i].value == "@Model.FilterViewModel.SelectedSector") {
+            selectSector.options[i].selected = true;
+            break;
+        }
+    }
+
+    function UpdateList() {
+        $('tr[data-href]').each(function (index) {
+            if ($(this).data('href') != $('#SelectedCheckId').val())
+                $(this).removeClass('selected_row');
+            else
+                $(this).addClass('selected_row');
+        })
+    }
+
+    $('*[data-href]').on('click', function () {
+        $('#SelectedCheckId').val($(this).data('href'));
+        UpdateList();
+        return false;
+    });
+    $('tr[data-href]').hover(function () {
+            $(this).addClass('hover');
+        }, function () {
+                $(this).removeClass('hover');
+        })
+</script>
+}

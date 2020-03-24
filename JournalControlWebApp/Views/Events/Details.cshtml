@@ -1,0 +1,155 @@
+﻿@model JournalControlWebApp.Models.dbo.Event
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.FailCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Check.FailCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.CheckDate)
+        </dt>
+        <dd class="col-sm-10">
+            @{string checkDateStr = Model.Check.CheckDate.ToShortDateString();}
+            @Html.DisplayFor(model => checkDateStr)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.Sector.Subunit.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Check.Sector.Subunit.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.Sector.SectorName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Check.Sector.SectorName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.RegWorkerNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @{ string regFio = Model.Check.RegWorkerNavigation.Family + " " + Model.Check.RegWorkerNavigation.Name[0] + "." + Model.Check.RegWorkerNavigation.Otch[0] + ".";}
+            @Html.DisplayFor(model => regFio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.TdKd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Check.TdKd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Check.ControlIndicator)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Check.FailDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FailReason)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FailReason)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResponsWorker)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResponsWorker)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class="col-sm-10">
+            @{ string dueDateStr = Model.DueDate.ToShortDateString();}
+            @Html.DisplayFor(model => dueDateStr)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DevelopDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DevelopDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DeveloperNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @{ string developerFio = Model.DeveloperNavigation.Family + " " + Model.DeveloperNavigation.Name[0] + "." + Model.DeveloperNavigation.Otch[0] + ".";}
+            @Html.DisplayFor(model => developerFio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DeveloperNavigation.Sector.Subunit.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DeveloperNavigation.Sector.Subunit.Name)
+        </dd>
+        @if (!String.IsNullOrEmpty(Model.Report))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Report)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Report)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProofInf)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProofInf)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ReportDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ReportDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ReportWorkerNavigation)
+            </dt>
+            <dd class="col-sm-10">
+                @{ string reportFio = Model.ReportWorkerNavigation.Family + " " + Model.ReportWorkerNavigation.Name[0] + "." + Model.ReportWorkerNavigation.Otch[0] + ".";}
+                @Html.DisplayFor(model => reportFio)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ReportWorkerNavigation.Sector.Subunit.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ReportWorkerNavigation.Sector.Subunit.Name)
+            </dd>
+        }
+    </dl>
+    @if (String.IsNullOrEmpty(Model.Report) && User.IsInRole("REPORT") && (ViewBag.Worker.Id == Model.DeveloperNavigation.Id || ViewBag.Worker.Sector.SubunitId == Model.DeveloperNavigation.Sector.SubunitId && User.IsInRole("SUBSHOW")))
+    {
+<form asp-action="Report" asp-route-id="@Model.Id" method="post">
+    <label asp-for="Report" class="control-label"></label>
+    <select name="Report">
+        <option value="-">-</option>
+        <option value="Выполнено">Выполнено</option>
+        <option value="Отменено">Отменено</option>
+    </select>
+    <label asp-for="ProofInf" class="control-label"></label>
+    <input asp-for="ProofInf" class="form-control" />
+    <input type="submit" class="btn btn-primary" value="Сохранить отчет" />
+</form>
+
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
