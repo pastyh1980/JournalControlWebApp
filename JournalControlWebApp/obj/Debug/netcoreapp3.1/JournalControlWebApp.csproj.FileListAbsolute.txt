@@ -303,3 +303,4 @@ D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalCon
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Create.cshtml.g.cs
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Index.cshtml.g.cs
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Details.cshtml.g.cs
+D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Report\CheckList.cshtml.g.cs

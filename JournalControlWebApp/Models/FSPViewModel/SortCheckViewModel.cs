@@ -22,7 +22,9 @@ namespace JournalControlWebApp.Models.FSPViewModel
         FailDescriptionAsc,
         FailDescriptionDesc,
         RegSubunitAsc,
-        RegSubunitDesc
+        RegSubunitDesc,
+        DeleteReasonAsc,
+        DeleteReasonDesc
     }
 
     public class SortCheckViewModel
@@ -35,6 +37,7 @@ namespace JournalControlWebApp.Models.FSPViewModel
         public SortStateCheck ControlIndicatorSort { get; private set; }
         public SortStateCheck FailDescriptionSort { get; private set; }
         public SortStateCheck RegSubunitSort { get; private set; }
+        public SortStateCheck DeleteReasonSort { get; private set; }
         public SortStateCheck Current { get; private set; }
 
         public SortCheckViewModel(SortStateCheck sortOrder)
@@ -47,6 +50,7 @@ namespace JournalControlWebApp.Models.FSPViewModel
             ControlIndicatorSort = sortOrder == SortStateCheck.ControlIndicatorAsc ? SortStateCheck.ControlIndicatorDesc : SortStateCheck.ControlIndicatorAsc;
             FailDescriptionSort = sortOrder == SortStateCheck.FailDescriptionAsc ? SortStateCheck.FailDescriptionDesc : SortStateCheck.FailDescriptionAsc;
             RegSubunitSort = sortOrder == SortStateCheck.RegSubunitAsc ? SortStateCheck.RegSubunitDesc : SortStateCheck.RegSubunitAsc;
+            DeleteReasonSort = sortOrder == SortStateCheck.DeleteReasonAsc ? SortStateCheck.DeleteReasonDesc : SortStateCheck.DeleteReasonAsc;
 
             Current = sortOrder;
         }

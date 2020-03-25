@@ -353,5 +353,31 @@ namespace JournalControlWebApp.Controllers
             }
             return NotFound();
         }
+
+        public async Task<IActionResult> Report(Event ev)
+        {
+            if (ModelState.IsValid)
+            {
+                Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                if (currentWorker != null)
+                {
+                    Event dbEv = db.Events.Find(ev.Id);
+                    dbEv.Report = ev.Report;
+                    dbEv.ProofInf = ev.ProofInf;
+                    dbEv.ReportDate = DateTime.Now;
+                    dbEv.ReportWorker = currentWorker.Id;
+
+                    db.Events.Update(dbEv);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Details", new { id = ev.Id });
+                }
+
+                return BadRequest();
+            }
+
+            return RedirectToAction("Details", new { id = ev.Id });
+        }
     }
 }

@@ -26,10 +26,28 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Check" asp-action="Index">Check</a>
                             </li>
-                        }@if (User.IsInRole("DEVEL") || User.IsInRole("EVENT_DETAIL") || User.IsInRole("CONTROL"))
+                        }
+                        @if (User.IsInRole("DEVEL") || User.IsInRole("EVENT_DETAIL") || User.IsInRole("CONTROL"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("CONTROL"))
+                        {
+                            <li class="nav-item dropdown" >
+                                <a href="#" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Report
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="CheckList">CheckList</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="EventList">EventList</a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         @if (User.IsInRole("ADMIN"))

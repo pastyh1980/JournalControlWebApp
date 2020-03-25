@@ -16,7 +16,10 @@ namespace JournalControlWebApp.Models.FSPViewModel
         public List<Sector> Sectors { get; private set; }
         public int? SelectedSector { get; private set; }
 
-        public FilterCheckViewModel(List<Subunit> subunits, List<Sector> sectors, int? selectedSubunit, int? selectedSector, string query)
+        public int? SelectedDeleteReason { get; private set; }
+        public SelectList DeleteReasonList { get; private set; }
+
+        public FilterCheckViewModel(List<Subunit> subunits, List<Sector> sectors, int? selectedSubunit, int? selectedSector, string query, int? selectedDeleteReason = 0)
         {
             QueryString = query;
             sectors.Insert(0, new Sector { Id = 0, SectorName = "Все" });
@@ -25,6 +28,29 @@ namespace JournalControlWebApp.Models.FSPViewModel
             SelectedSector = selectedSector;
             subunits.Insert(0, new Subunit { Id = 0, Name = "Все" });
             Subunits = new SelectList(subunits, "Id", "Name", selectedSubunit);
+
+            List<DeleteReasonItem> items = new List<DeleteReasonItem>
+            {
+                new DeleteReasonItem(0, "Все"),
+                new DeleteReasonItem(1, "-"),
+                new DeleteReasonItem(2, "Устанение"),
+                new DeleteReasonItem(3, "Ошибка")
+            };
+
+            SelectedDeleteReason = selectedDeleteReason;
+            DeleteReasonList = new SelectList(items, "Id", "Value", selectedDeleteReason);
+        }
+
+        private class DeleteReasonItem
+        {
+            public int Id { get; set; }
+            public string Value { get; set; }
+
+            public DeleteReasonItem(int id, string value)
+            {
+                Id = id;
+                Value = value;
+            }
         }
     }
 }

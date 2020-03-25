@@ -232,6 +232,8 @@ namespace JournalControlWebApp.Controllers
                 db.Entry(check).Collection(c => c.Events).Load();
                 db.Entry(check).Collection(c => c.Shows).Load();
 
+                check.Events = check.Events.Where(e => e.IsCorrect && e.IsActive).ToList();
+
                 foreach(Show show in check.Shows)
                 {
                     db.Entry(show).Reference(s => s.Worker).Load();
