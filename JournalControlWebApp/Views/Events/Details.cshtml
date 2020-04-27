@@ -135,30 +135,46 @@
     </dl>
     @if (String.IsNullOrEmpty(Model.Report) && User.IsInRole("REPORT") && (ViewBag.Worker.Id == Model.DeveloperNavigation.Id || ViewBag.Worker.Sector.SubunitId == Model.DeveloperNavigation.Sector.SubunitId && User.IsInRole("SUBSHOW")))
     {
-<form asp-action="Report" method="post">
-    <input type="hidden" asp-for="Id" value="@Model.Id" />
-    <div class="form-group">
-        <label asp-for="Report" class="control-label"></label>
-        <select name="Report">
-            <option value="-">-</option>
-            <option value="Выполнено">Выполнено</option>
-            <option value="Отменено">Отменено</option>
-        </select>
-        <span asp-validation-for="Report" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ProofInf" class="control-label"></label>
-        <input asp-for="ProofInf" class="form-control" />
-        <span asp-validation-for="ProofInf" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Сохранить отчет" />
-    </div>
-</form>
+        <form asp-action="Report" method="post">
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="Report" class="control-label"></label>
+                <select name="Report">
+                    <option value="-">-</option>
+                    <option value="Выполнено">Выполнено</option>
+                    <option value="Отменено">Отменено</option>
+                </select>
+                <span asp-validation-for="Report" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProofInf" class="control-label"></label>
+                <input asp-for="ProofInf" class="form-control" />
+                <span asp-validation-for="ProofInf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Сохранить отчет" />
+            </div>
+        </form>
 
+    }
+
+    @if (User.IsInRole("REPORT") && !String.IsNullOrEmpty(Model.Report))
+    {
+        <form method="post" asp-action="Deactivate" asp-route-id="@Model.Id">
+            <input type="submit" value="Зарегистрировать устранение мероприятия" class="btn btn-primary" />
+        </form>
+    }
+
+    @if (User.IsInRole("DEVEL") && String.IsNullOrEmpty(Model.Report)
+    && (ViewBag.Worker.Id == Model.Developer
+    || (User.IsInRole("SUBSHOW") && (ViewBag.Worker.SectorId == Model.DeveloperNavigation.SectorId
+    || ViewBag.Worker.Sector.SubunitId == Model.DeveloperNavigation.Sector.SubunitId && ViewBag.Worker.Sector.IsMain))))
+    {
+    <form method="post" asp-action="Incorrect" asp-route-id="@Model.Id">
+        <input type="submit" value="Зарегистрировать ошибку в мероприятии" class="btn btn-primary" />
+    </form>
     }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -75,7 +75,7 @@
     </dl>
 </div>
 
-@if (Model.Events.Count > 0)
+@if (Model.Events.Where(e => e.IsCorrect && e.IsActive).Count() > 0)
 {
     <table class="table">
         <thead>
@@ -92,8 +92,10 @@
         <tbody>
             @foreach (var ev in Model.Events)
             {
-                string FIO = ev.DeveloperNavigation.Family + " " + ev.DeveloperNavigation.Name[0] + "." + ev.DeveloperNavigation.Otch[0] + ".";
-                string dueStr = ev.DueDate.ToShortDateString();
+                @if (ev.IsActive && ev.IsCorrect)
+                {
+                    string FIO = ev.DeveloperNavigation.Family + " " + ev.DeveloperNavigation.Name[0] + "." + ev.DeveloperNavigation.Otch[0] + ".";
+                    string dueStr = ev.DueDate.ToShortDateString();
                 <tr>
                     <td>
                         @FIO
@@ -117,7 +119,8 @@
                         @ev.ProofInf
                     </td>
                 </tr>
-            }
+                    }
+                }
         </tbody>
     </table>
 }
@@ -158,12 +161,31 @@
 }
 
 @if (User.IsInRole("SUBSHOW") && (ViewBag.Worker.SectorId == Model.SectorId
-  || ViewBag.Worker.Sector.SubunitId == Model.Sector.SubunitId && ViewBag.Worker.Sector.IsMain)
-  && !Model.Shows.Any(s => s.WorkerId == ViewBag.Worker.Id))
+|| ViewBag.Worker.Sector.SubunitId == Model.Sector.SubunitId && ViewBag.Worker.Sector.IsMain)
+&& !Model.Shows.Any(s => s.WorkerId == ViewBag.Worker.Id))
 {
     <form method="post" asp-action="Subshow" asp-route-checkId="@Model.Id">
         <input type="submit" value="Ознакомиться" class="btn btn-primary" />
     </form>
+}
+
+@if (User.IsInRole("SUBSHOW") && Model.Shows.Count > 0
+  && (ViewBag.Worker.SectorId == Model.SectorId || ViewBag.Worker.Sector.SubunitId == Model.Sector.SubunitId && ViewBag.Worker.Sector.IsMain)
+  && (!Model.IsFail || Model.Events.Where(e => e.IsCorrect).Count() > 0 && !Model.Events.Any(e => e.IsActive && e.IsCorrect)))
+{
+    <form method="post" asp-action="Deactivate" asp-route-id="@Model.Id">
+        <input type="submit" value="Зарегистрировать устранение несоответствия" class="btn btn-primary" />
+    </form>
+}
+
+@if (Model.Shows.Count == 0 && Model.Events.Count == 0
+   && (ViewBag.Worker.Id == Model.RegWorker 
+    || (User.IsInRole("SUBSHOW") && (ViewBag.Worker.SectorId == Model.RegWorkerNavigation.SectorId 
+    || ViewBag.Worker.Sector.SubunitId == Model.RegWorkerNavigation.Sector.SubunitId && ViewBag.Worker.Sector.IsMain))))
+{
+<form method="post" asp-action="Incorrect" asp-route-id="@Model.Id">
+    <input type="submit" value="Зарегистрировать ошибку в несоответствии" class="btn btn-primary" />
+</form>
 }
 
 <div>

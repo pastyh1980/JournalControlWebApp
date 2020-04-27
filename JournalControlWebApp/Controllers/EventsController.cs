@@ -354,6 +354,7 @@ namespace JournalControlWebApp.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "REPORT")]
         public async Task<IActionResult> Report(Event ev)
         {
             if (ModelState.IsValid)
@@ -378,6 +379,61 @@ namespace JournalControlWebApp.Controllers
             }
 
             return RedirectToAction("Details", new { id = ev.Id });
+        }
+
+        [Authorize(Roles = "REPORT")]
+        [HttpPost]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            Event ev = db.Events.Find(id);
+            Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (ev != null && currentWorker != null)
+            {
+                if (!String.IsNullOrEmpty(ev.Report))
+                {
+                    ev.IsActive = false;
+                    ev.DeleteDate = DateTime.Now;
+                    ev.DeleteWorker = currentWorker.Id;
+                    db.Events.Update(ev);
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Details", new { id });
+            }
+            return BadRequest();
+        }
+
+        [Authorize(Roles = "DEVEL")]
+        [HttpPost]
+        public async Task<IActionResult> Incorrect(int id)
+        {
+            Event ev = db.Events.Find(id);
+            Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (ev != null && currentWorker != null)
+            {
+                db.Entry(currentWorker).Reference(w => w.Sector).Load();
+                db.Entry(ev).Reference(e => e.DeveloperNavigation).Load();
+                db.Entry(ev.DeveloperNavigation).Reference(w => w.Sector).Load();
+
+                if (String.IsNullOrEmpty(ev.Report)
+                    && (ev.Developer == currentWorker.Id 
+                    || User.IsInRole("SUBSHOW") && (ev.DeveloperNavigation.SectorId == currentWorker.SectorId 
+                    || ev.DeveloperNavigation.Sector.SubunitId == currentWorker.Sector.SubunitId && currentWorker.Sector.IsMain)))
+                {
+                    ev.IsCorrect = false;
+                    ev.DeleteDate = DateTime.Now;
+                    ev.DeleteWorker = currentWorker.Id;
+                    db.Events.Update(ev);
+
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Details", new { id });
+            }
+            return BadRequest();
         }
     }
 }

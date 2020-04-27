@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj": {}
+    "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj": {}
   },
   "projects": {
-    "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj": {
+    "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
+        "projectUniqueName": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
         "projectName": "JournalControlWebApp",
-        "projectPath": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
-        "packagesPath": "D:\\Users\\pasty\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\pasty\\Desktop\\Универ\\Диплом\\JournalControlWebApp\\JournalControlWebApp\\obj\\",
+        "projectPath": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\JournalControlWebApp.csproj",
+        "packagesPath": "C:\\Users\\alexey\\.nuget\\packages\\",
+        "outputPath": "E:\\VSprojects\\JournalControlWebApp\\JournalControlWebApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "D:\\Users\\pasty\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\alexey\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -106,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -50,7 +50,7 @@ namespace JournalControlWebApp.Controllers
                 if (worker != null)
                 {
                     db.Entry(worker).Reference(w => w.Sector).Load();
-                    checks = checks.Where(c => c.Sector.SubunitId == worker.Sector.SubunitId);
+                    checks = checks.Where(c => c.Sector.SubunitId == worker.Sector.SubunitId || c.RegWorker == worker.Id);
                 }
             }
 
@@ -232,7 +232,7 @@ namespace JournalControlWebApp.Controllers
                 db.Entry(check).Collection(c => c.Events).Load();
                 db.Entry(check).Collection(c => c.Shows).Load();
 
-                check.Events = check.Events.Where(e => e.IsCorrect && e.IsActive).ToList();
+                //check.Events = check.Events.Where(e => e.IsCorrect && e.IsActive).ToList();
 
                 foreach(Show show in check.Shows)
                 {
@@ -287,6 +287,70 @@ namespace JournalControlWebApp.Controllers
                 return RedirectToAction("Details", new { id = checkId });
             }
 
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SUBSHOW")]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            Check check = db.Check.Find(id);
+            Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (currentWorker != null && check != null)
+            {
+                db.Entry(currentWorker).Reference(w => w.Sector).Load();
+                db.Entry(check).Reference(c => c.Sector).Load();
+                db.Entry(check).Collection(c => c.Shows).Load();
+                db.Entry(check).Collection(c => c.Events).Load();
+                if (check.Shows.Count > 0 //Есть ознакомление
+                    && (currentWorker.SectorId == check.SectorId || currentWorker.Sector.SubunitId == check.Sector.SubunitId && currentWorker.Sector.IsMain) //Сотрудник начальник сектора или начальник главного сектора
+                    && (!check.IsFail || check.Events.Where(e => e.IsCorrect).Count() > 0 && !check.Events.Any(e => e.IsActive && e.IsCorrect))) //Несоответствий не обнаружено или есть хотя бы один корректный ивент и все ивенты завершены
+                {
+                    check.IsActive = false;
+                    check.DeleteDate = DateTime.Now;
+                    check.DeleteWorker = currentWorker.Id;
+
+                    db.Check.Update(check);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Details", new { id });
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "REG")]
+        public async Task<IActionResult> Incorrect(int id)
+        {
+            Check check = db.Check.Find(id);
+            Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (currentWorker != null && check != null)
+            {
+                db.Entry(currentWorker).Reference(w => w.Sector).Load();
+                db.Entry(check).Collection(c => c.Shows).Load();
+                db.Entry(check).Collection(c => c.Events).Load();
+                db.Entry(check).Reference(c => c.RegWorkerNavigation).Load();
+                db.Entry(check.RegWorkerNavigation).Reference(w => w.Sector).Load();
+
+                if (check.Shows.Count == 0 //Никто не ознакомился
+                    && check.Events.Count == 0 //Нет мероприятий
+                    && (check.RegWorker == currentWorker.Id || User.IsInRole("SUBSHOW")
+                    && (currentWorker.SectorId == check.RegWorkerNavigation.SectorId
+                    || currentWorker.Sector.SubunitId == check.RegWorkerNavigation.Sector.SubunitId && currentWorker.Sector.IsMain))) //Удалить может только создатель записи или его начальник
+                {
+                    check.IsCorrect = false;
+                    check.DeleteDate = DateTime.Now;
+                    check.DeleteWorker = currentWorker.Id;
+
+                    db.Check.Update(check);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Details", new { id });
+            }
             return BadRequest();
         }
     }
