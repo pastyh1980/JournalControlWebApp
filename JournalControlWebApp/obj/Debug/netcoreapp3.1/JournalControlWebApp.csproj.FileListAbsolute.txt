@@ -141,7 +141,6 @@ E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.MvcApplicationPartsAssemblyInfo.cache
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\CreateUser.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs
@@ -304,7 +303,6 @@ D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalCon
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Index.cshtml.g.cs
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Events\Details.cshtml.g.cs
 D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Report\CheckList.cshtml.g.cs
-E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.csproj.CoreCompileInputs.cache
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Check\Create.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Check\Details.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Check\Index.cshtml.g.cs
@@ -316,3 +314,7 @@ E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\ChangePassword.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\Razor\Views\Users\EditUser.cshtml.g.cs
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.genruntimeconfig.cache
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\EPPlus.dll
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.csproj.CoreCompileInputs.cache
+E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.MvcApplicationPartsAssemblyInfo.cache
