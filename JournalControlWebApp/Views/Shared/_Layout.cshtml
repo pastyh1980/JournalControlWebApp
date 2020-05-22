@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JournalControlWebApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Журнал КТД</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,31 +24,31 @@
                         @if (User.IsInRole("REG") || User.IsInRole("CHECK_DETAIL") || User.IsInRole("CONTROL"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Check" asp-action="Index">Check</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Check" asp-action="Index">Несоответствия</a>
                             </li>
                         }
                         @if (User.IsInRole("DEVEL") || User.IsInRole("EVENT_DETAIL") || User.IsInRole("CONTROL"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Мероприятия</a>
                             </li>
                         }
                         @if (User.IsInRole("CONTROL"))
                         {
                             <li class="nav-item dropdown" >
                                 <a href="#" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Report
+                                    Отчеты
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="CheckList">CheckList</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="CheckList">По несоответствиям</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="EventList">EventList</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="EventList">По мероприятиям</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="CreateReport">CreateReport</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Report" asp-action="CreateReport">Выгрузка отчета</a>
                                     </li>
                                 </ul>
                             </li>
@@ -56,7 +56,7 @@
                         @if (User.IsInRole("ADMIN"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Пользователи</a>
                             </li>
                         }
                     </ul>
