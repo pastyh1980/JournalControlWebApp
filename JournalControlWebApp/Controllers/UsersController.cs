@@ -46,65 +46,23 @@ namespace JournalControlWebApp.Controllers
                 );
             }
 
-            switch(sortOrder)
+            workers = sortOrder switch
             {
-                case SortStateWorker.LoginDesc:
-                    workers = workers.OrderByDescending(p => p.UserName);
-                    break;
-
-                case SortStateWorker.FamilyAsc:
-                    workers = workers.OrderBy(p => p.Family);
-                    break;
-
-                case SortStateWorker.FamilyDesc:
-                    workers = workers.OrderByDescending(p => p.Family);
-                    break;
-
-                case SortStateWorker.NameAsc:
-                    workers = workers.OrderBy(p => p.Name);
-                    break;
-
-                case SortStateWorker.NameDesc:
-                    workers = workers.OrderByDescending(p => p.Name);
-                    break;
-
-                case SortStateWorker.OtchAsc:
-                    workers = workers.OrderBy(p => p.Otch);
-                    break;
-
-                case SortStateWorker.OtchDesc:
-                    workers = workers.OrderByDescending(p => p.Otch);
-                    break;
-
-                case SortStateWorker.PostAsc:
-                    workers = workers.OrderBy(p => p.Post);
-                    break;
-
-                case SortStateWorker.PostDesc:
-                    workers = workers.OrderByDescending(p => p.Post);
-                    break;
-
-                case SortStateWorker.SubunitAsc:
-                    workers = workers.OrderBy(p => p.Sector.Subunit.Name);
-                    break;
-
-                case SortStateWorker.SubunitDesc:
-                    workers = workers.OrderByDescending(p => p.Sector.Subunit.Name);
-                    break;
-
-                case SortStateWorker.SectorAsc:
-                    workers = workers.OrderBy(p => p.UserName);
-                    break;
-
-                case SortStateWorker.SectorDesc:
-                    workers = workers.OrderByDescending(p => p.UserName);
-                    break;
-
-                default:
-                    workers = workers.OrderBy(p => p.UserName);
-                    break;
-            }
-
+                SortStateWorker.LoginDesc => workers.OrderByDescending(p => p.UserName),
+                SortStateWorker.FamilyAsc => workers.OrderBy(p => p.Family),
+                SortStateWorker.FamilyDesc => workers.OrderByDescending(p => p.Family),
+                SortStateWorker.NameAsc => workers.OrderBy(p => p.Name),
+                SortStateWorker.NameDesc => workers.OrderByDescending(p => p.Name),
+                SortStateWorker.OtchAsc => workers.OrderBy(p => p.Otch),
+                SortStateWorker.OtchDesc => workers.OrderByDescending(p => p.Otch),
+                SortStateWorker.PostAsc => workers.OrderBy(p => p.Post),
+                SortStateWorker.PostDesc => workers.OrderByDescending(p => p.Post),
+                SortStateWorker.SubunitAsc => workers.OrderBy(p => p.Sector.Subunit.Name),
+                SortStateWorker.SubunitDesc => workers.OrderByDescending(p => p.Sector.Subunit.Name),
+                SortStateWorker.SectorAsc => workers.OrderBy(p => p.UserName),
+                SortStateWorker.SectorDesc => workers.OrderByDescending(p => p.UserName),
+                _ => workers.OrderBy(p => p.UserName),
+            };
             var count = workers.Count();
             var items = workers.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
@@ -121,8 +79,10 @@ namespace JournalControlWebApp.Controllers
         [HttpGet]
         public IActionResult CreateUser()
         {
-            CreateUserViewModel model = new CreateUserViewModel(db);
-            model.AllRoles = _roleManager.Roles.ToList();
+            CreateUserViewModel model = new CreateUserViewModel(db)
+            {
+                AllRoles = _roleManager.Roles.ToList()
+            };
             return View(model);
         }
 

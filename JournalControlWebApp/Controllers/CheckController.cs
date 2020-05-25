@@ -73,73 +73,25 @@ namespace JournalControlWebApp.Controllers
                 );
             }
 
-            switch (sortOrder)
+            checks = sortOrder switch
             {
-                case SortStateCheck.FailCountDesc:
-                    checks = checks.OrderByDescending(c => c.FailCount);
-                    break;
-
-                case SortStateCheck.CheckSubunitAsc:
-                    checks = checks.OrderBy(c => c.Sector.Subunit.Name);
-                    break;
-
-                case SortStateCheck.CheckSubunitDesc:
-                    checks = checks.OrderByDescending(c => c.Sector.Subunit.Name);
-                    break;
-
-                case SortStateCheck.CheckDateAsc:
-                    checks = checks.OrderBy(c => c.CheckDate);
-                    break;
-
-                case SortStateCheck.CheckDateDesc:
-                    checks = checks.OrderByDescending(c => c.CheckDate);
-                    break;
-
-                case SortStateCheck.SectorAsc:
-                    checks = checks.OrderBy(c => c.Sector.SectorName);
-                    break;
-
-                case SortStateCheck.SectorDesc:
-                    checks = checks.OrderByDescending(c => c.Sector.SectorName);
-                    break;
-
-                case SortStateCheck.RegWorkerAsc:
-                    checks = checks.OrderBy(c => c.RegWorkerNavigation.Family);
-                    break;
-
-                case SortStateCheck.RegWorkerDesc:
-                    checks = checks.OrderByDescending(c => c.RegWorkerNavigation.Family);
-                    break;
-
-                case SortStateCheck.ControlIndicatorAsc:
-                    checks = checks.OrderBy(c => c.ControlIndicator);
-                    break;
-
-                case SortStateCheck.ControlIndicatorDesc:
-                    checks = checks.OrderByDescending(c => c.ControlIndicator);
-                    break;
-
-                case SortStateCheck.FailDescriptionAsc:
-                    checks = checks.OrderBy(c => c.FailDescription);
-                    break;
-
-                case SortStateCheck.FailDescriptionDesc:
-                    checks = checks.OrderByDescending(c => c.FailDescription);
-                    break;
-
-                case SortStateCheck.RegSubunitAsc:
-                    checks = checks.OrderBy(c => c.RegWorkerNavigation.Sector.Subunit.Name);
-                    break;
-
-                case SortStateCheck.RegSubunitDesc:
-                    checks = checks.OrderByDescending(c => c.RegWorkerNavigation.Sector.Subunit.Name);
-                    break;
-
-                default:
-                    checks = checks.OrderBy(c => c.FailCount);
-                    break;
-            }
-
+                SortStateCheck.FailCountDesc => checks.OrderByDescending(c => c.FailCount),
+                SortStateCheck.CheckSubunitAsc => checks.OrderBy(c => c.Sector.Subunit.Name),
+                SortStateCheck.CheckSubunitDesc => checks.OrderByDescending(c => c.Sector.Subunit.Name),
+                SortStateCheck.CheckDateAsc => checks.OrderBy(c => c.CheckDate),
+                SortStateCheck.CheckDateDesc => checks.OrderByDescending(c => c.CheckDate),
+                SortStateCheck.SectorAsc => checks.OrderBy(c => c.Sector.SectorName),
+                SortStateCheck.SectorDesc => checks.OrderByDescending(c => c.Sector.SectorName),
+                SortStateCheck.RegWorkerAsc => checks.OrderBy(c => c.RegWorkerNavigation.Family),
+                SortStateCheck.RegWorkerDesc => checks.OrderByDescending(c => c.RegWorkerNavigation.Family),
+                SortStateCheck.ControlIndicatorAsc => checks.OrderBy(c => c.ControlIndicator),
+                SortStateCheck.ControlIndicatorDesc => checks.OrderByDescending(c => c.ControlIndicator),
+                SortStateCheck.FailDescriptionAsc => checks.OrderBy(c => c.FailDescription),
+                SortStateCheck.FailDescriptionDesc => checks.OrderByDescending(c => c.FailDescription),
+                SortStateCheck.RegSubunitAsc => checks.OrderBy(c => c.RegWorkerNavigation.Sector.Subunit.Name),
+                SortStateCheck.RegSubunitDesc => checks.OrderByDescending(c => c.RegWorkerNavigation.Sector.Subunit.Name),
+                _ => checks.OrderBy(c => c.FailCount),
+            };
             var count = await checks.CountAsync();
             var items = await checks.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
