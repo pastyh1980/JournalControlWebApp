@@ -1,12 +1,11 @@
 ﻿@model JournalControlWebApp.Models.ViewModel.WorkerListViewModel;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cписок пользователей";
 }
 
-<h1>UserList</h1>
 <p>
-    <a asp-action="CreateUser">Create New</a>
+    <a asp-action="CreateUser">Создать пользователя</a>
 </p>
 <form method="get" asp-action="Index">
     <div class="form-inline">
@@ -95,11 +94,8 @@
                     @Html.DisplayFor(modelItem => item.Sector.SectorName)
                 </td>
                 <td>
-                    <form asp-action="DeleteUser" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Вы действительно хотите удалить пользователя @(item.UserName)?')">
                         <a asp-action="EditUser" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Изменить</a>
                         <a asp-action="ChangePassword" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Сбросить пароль</a>
-                        <button asp-action="DeleteUser" type="submit" class="btn btn-sm btn-danger">Удалить</button>
-                    </form>
                 </td>
             </tr>
         }

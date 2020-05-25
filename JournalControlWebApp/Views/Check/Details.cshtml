@@ -1,13 +1,11 @@
 ﻿@model JournalControlWebApp.Models.dbo.Check
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Несоотвествие " + Model.FailCount;
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Check</h4>
+    <h4>Детали несоответствия</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -77,6 +75,7 @@
 
 @if (Model.Events.Where(e => e.IsCorrect && e.IsActive).Count() > 0)
 {
+    <h5>Разработанные мероприятия:</h5>
     <table class="table">
         <thead>
             <tr>
@@ -127,6 +126,7 @@
 
 @if (Model.Shows.Count > 0)
 {
+    <h5>Ознакомились с несоответствием:</h5>
     <table class="table">
         <thead>
             <tr>
@@ -187,7 +187,3 @@
     <input type="submit" value="Зарегистрировать ошибку в несоответствии" class="btn btn-primary" />
 </form>
 }
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>

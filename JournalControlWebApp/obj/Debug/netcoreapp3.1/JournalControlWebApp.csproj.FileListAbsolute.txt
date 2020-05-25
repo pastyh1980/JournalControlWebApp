@@ -318,3 +318,5 @@ E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.csproj.CoreCompileInputs.cache
 E:\VSprojects\JournalControlWebApp\JournalControlWebApp\obj\Debug\netcoreapp3.1\JournalControlWebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\EPPlus.dll
+D:\Users\pasty\Desktop\Универ\Диплом\JournalControlWebApp\JournalControlWebApp\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll

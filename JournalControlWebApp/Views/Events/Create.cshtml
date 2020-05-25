@@ -1,14 +1,13 @@
 ﻿@model JournalControlWebApp.Models.ViewModel.CreateEventViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Разработка мероприятия";
 }
 
-<h1>Create</h1>
-
-<h4>CreateEventViewModel</h4>
+<h4>Разработка мероприятия</h4>
 <hr />
 <div class="row">
+    <h5>Выберите несоответствие, для которого будет разрабатываться мероприятие</h5>
     <form method="get" asp-action="Index" name="CheckFilter">
         <div class="form-inline">
             <input name="query" value="@Model.FilterViewModel.QueryString" class="form-control" />
@@ -196,14 +195,10 @@
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

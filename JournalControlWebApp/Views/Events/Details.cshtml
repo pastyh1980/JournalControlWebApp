@@ -1,13 +1,11 @@
 ﻿@model JournalControlWebApp.Models.dbo.Event
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Мероприятие";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Event</h4>
+    <h4>Детали мероприятия</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -24,13 +22,13 @@
             @Html.DisplayFor(model => checkDateStr)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Check.Sector.Subunit.Name)
+            Проверяемое подразделение
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Check.Sector.Subunit.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Check.Sector.SectorName)
+            Проверяемый участок
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Check.Sector.SectorName)
@@ -93,7 +91,7 @@
             @Html.DisplayFor(model => developerFio)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DeveloperNavigation.Sector.Subunit.Name)
+            Подразделение разработчика
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DeveloperNavigation.Sector.Subunit.Name)
@@ -126,7 +124,7 @@
                 @Html.DisplayFor(model => reportFio)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ReportWorkerNavigation.Sector.Subunit.Name)
+                Подразделение предоставившего отчет
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.ReportWorkerNavigation.Sector.Subunit.Name)
@@ -174,7 +172,4 @@
         <input type="submit" value="Зарегистрировать ошибку в мероприятии" class="btn btn-primary" />
     </form>
     }
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

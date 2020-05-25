@@ -1,10 +1,15 @@
 ﻿@model JournalControlWebApp.Models.ViewModel.EventListViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список мероприятий";
 }
 
-<h1>Index</h1>
+@if (User.IsInRole("DEVEL"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <form method="get" asp-action="Index">
     <div class="form-inline">
         <input name="query" value="@Model.FilterViewModel.QueryString" class="form-control" />
@@ -15,12 +20,6 @@
         <input type="submit" value="Поиск" class="btn btn-outline-primary" />
     </div>
 </form>
-@if (User.IsInRole("DEVEL"))
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
 <table class="table">
     <thead>
         <tr>
@@ -99,7 +98,7 @@
     <tbody>
         @foreach (var item in Model.Events)
         {
-            string FIO = item.DeveloperNavigation.Family + " " + item.DeveloperNavigation.Name + "." + item.DeveloperNavigation.Otch + ".";
+            string FIO = item.DeveloperNavigation.Family + " " + item.DeveloperNavigation.Name[0] + "." + item.DeveloperNavigation.Otch[0] + ".";
             string date = item.DueDate.ToShortDateString();
             <tr data-href="/Events/Details?id=@item.Id">
                 <td>

@@ -1,19 +1,54 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model JournalControlWebApp.Models.ViewModel.HomeViewModel
+
+@{
+    ViewData["Title"] = "Главная";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">@ViewBag.Message</h1>
+<div class="row">
+    <div class="text-left">
         @if (User.Identity.IsAuthenticated)
         {
-            <p>@User.Identity.Name</p>
-
-            <form method="post" asp-controller="Home" asp-action="Logout">
-                <input type="submit" value="Выход" />
-            </form>
+            <p>
+                Добрый день!
+            </p>
+            <p>
+                Вы вошли в приложение "Журнал контроля технологической дисциплины" под именем <span>@Model.FIO</span>, <span>@Model.Post</span>, <span>@Model.Subunit</span>
+            </p>
+            <p>
+                Вам доступны следующие действия:
+            </p>
+            <ul>
+                @foreach (string role in Model.UserRoles)
+                {
+                    switch (role)
+                    {
+                        case "REG":
+                            <li><a asp-controller="Check" asp-action="Create">Регистрация несоответствий</a></li>
+                            break;
+                        case "CHECK_DETAIL":
+                            <li><a asp-controller="Check" asp-action="Index">Просмотр несоответствий</a></li>
+                            break;
+                        case "DEVEL":
+                            <li><a asp-controller="Events" asp-action="Create">Разработка мероприятий</a></li>
+                            break;
+                        case "EVENT_DETAIL":
+                            <li><a asp-controller="Events" asp-action="Index">Просмотр мероприятий</a></li>
+                            break;
+                        case "REPORT_SHOW":
+                            <li>Просмотр отчетов по <a asp-controller="Report" asp-action="CheckList">несоответствиям</a>, <a asp-controller="Report" asp-action="EventList">мероприятиям</a> и выгрузка <a asp-controller="Report" asp-action="CreateReport">полного отчета</a> в Excel</li>
+                            break;
+                        case "ADMIN":
+                            <li><a asp-controller="Users" asp-action="Index">Управление пользователями</a></li>
+                            break;
+                    }
+                }
+            </ul>
         }
-        else
-        {
-            <a asp-controller="Home" asp-action="Login">Вход</a>
-        }
+                else
+                {
+            <p>Добрый день!</p>
+            <p>На данный момент вы не вошли в систему</p>
+            <a asp-controller="Home" asp-action="Login">Войти</a>
+                }
     </div>
+</div>

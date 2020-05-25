@@ -32,17 +32,31 @@ namespace JournalControlWebApp.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
             {
-                ViewBag.Message = "TRUE";
+                Worker currentWorker = await _userManager.FindByNameAsync(User.Identity.Name);
+                db.Entry(currentWorker).Reference(w => w.Sector).Load();
+                db.Entry(currentWorker.Sector).Reference(s => s.Subunit).Load();
+                HomeViewModel model = new HomeViewModel()
+                {
+                    FIO = currentWorker.Family + " " + currentWorker.Name[0] + "." + (string.IsNullOrEmpty(currentWorker.Otch) ? "" : (currentWorker.Otch[0] + ".")),
+                    Post = currentWorker.Post,
+                    Subunit = currentWorker.Sector.Subunit.Name,
+                    Sector = currentWorker.Sector.SectorName,
+                    UserRoles = await _userManager.GetRolesAsync(currentWorker)
+                };
+
+                return View(model);
             }
             else
             {
-                ViewBag.Message = "FALSE";
+                HomeViewModel model = new HomeViewModel();
+
+                return View(model);
             }
-            return View();
+
         }
 
         public IActionResult Privacy()
