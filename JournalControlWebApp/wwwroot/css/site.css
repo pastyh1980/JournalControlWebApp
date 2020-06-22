@@ -129,3 +129,11 @@ tr.red_row td {
 .glyphicon-chevron-left:before {
     content: "\f053";
 }
+
+.form-inline .form-control {
+    margin: 0 15px 5px 5px;
+}
+
+.navbar-text {
+    margin-right: 10px;
+}
